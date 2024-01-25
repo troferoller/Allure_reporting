@@ -6,7 +6,7 @@ import static com.codeborne.selenide.Selenide.open;
 public class TestBase {
     @BeforeAll
     static void configs(){
-        Configuration.browserSize = "2560x1440";
+        Configuration.browserSize = "1440x900";
         Configuration.baseUrl = "https://github.com";
         Configuration.pageLoadStrategy = "eager";
     }

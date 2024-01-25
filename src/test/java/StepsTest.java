@@ -5,33 +5,38 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
-
+import static com.codeborne.selenide.Selenide.open;
 import static org.openqa.selenium.By.linkText;
 
-public class LambdaTest extends TestBase {
+public class StepsTest {
     private static final String REPOSITORY = "eroshenkoam/allure-example";
     private static final int ISSUE = 80;
+
     @Test
-    public void repositoryLambdaIssueCheckTest() {
+    public void testLambdaStep() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        open("https://github.com/");
-        step("Ищем репозиторий " + REPOSITORY, () -> {
-            $(".header-search-button").click();
+
+        step("Открываем главную страницу", () -> {
+            open("https://github.com");
+        });
+
+        step("Ищем репозиторий", () -> {
+            $("[data-target='qbsearch-input.inputButtonText']").click();
             $("#query-builder-test").sendKeys(REPOSITORY);
             $("#query-builder-test").submit();
         });
-        step("Открываем репозиторий " + REPOSITORY, () -> {
+
+        step("Перехеодим в списко найденых репозиториев", () -> {
             $(linkText(REPOSITORY)).click();
         });
-        step("Открываем таб Issue ", () -> {
+
+        step("Открытие Tab Issue", () -> {
             $("#issues-tab").click();
         });
-        step("Проверяем наличие Issue " + ISSUE, () -> {
-            $(withText("#"+ ISSUE)).should(Condition.exist);
+
+        step("Поиск совпадение с Issue", () -> {
+            $(withText("#" + ISSUE)).should(Condition.exist);
         });
-
     }
-
 }
